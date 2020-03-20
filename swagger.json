@@ -1,0 +1,1349 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Node API Template",
+        "description": "Node API Template",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [
+        {
+            "name": "Node API",
+            "description": ""
+        }
+    ],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "ReferDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "userRole": {
+                        "type": "string"
+                    },
+                    "paging": {
+                        "type": "object"
+                    },
+                    "sortColumn": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "username",
+                    "userRole",
+                    "paging",
+                    "sortColumn"
+                ]
+            },
+            "PagingFilter": {
+                "type": "object",
+                "properties": {
+                    "paging": {
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "paging"
+                ]
+            },
+            "DbConfigDetails": {
+                "type": "object",
+                "properties": {
+                    "oracleHostName": {
+                        "type": "string"
+                    },
+                    "oraclePort": {
+                        "type": "number"
+                    },
+                    "oracleServiceId": {
+                        "type": "string"
+                    },
+                    "oracleUserName": {
+                        "type": "string"
+                    },
+                    "oraclePassword": {
+                        "type": "string"
+                    },
+                    "oracleSchema": {
+                        "type": "string"
+                    },
+                    "dbType": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "oracleHostName",
+                    "oraclePort",
+                    "oracleServiceId",
+                    "oracleUserName",
+                    "oraclePassword",
+                    "oracleSchema",
+                    "dbType"
+                ]
+            },
+            "SearchTableRelationDataDto": {
+                "type": "object",
+                "properties": {
+                    "parentTable": {
+                        "type": "string"
+                    },
+                    "childTable": {
+                        "type": "string"
+                    },
+                    "dbId": {
+                        "type": "string"
+                    },
+                    "pageNumber": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "parentTable",
+                    "childTable",
+                    "dbId",
+                    "pageNumber"
+                ]
+            },
+            "InputSqlTableRelationsDto": {
+                "type": "object",
+                "properties": {
+                    "dbId": {
+                        "type": "string"
+                    },
+                    "sql": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "dbId",
+                    "sql"
+                ]
+            },
+            "TableRelationsDto": {
+                "type": "object",
+                "properties": {
+                    "parentTable": {
+                        "type": "string"
+                    },
+                    "parentColumn": {
+                        "type": "string"
+                    },
+                    "childTable": {
+                        "type": "string"
+                    },
+                    "childColumn": {
+                        "type": "string"
+                    },
+                    "dbId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "parentTable",
+                    "parentColumn",
+                    "childTable",
+                    "childColumn",
+                    "dbId"
+                ]
+            },
+            "SelectedTablesDto": {
+                "type": "object",
+                "properties": {
+                    "unique_parent": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "unique_child": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "intermediate": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "unique_parent",
+                    "unique_child",
+                    "intermediate"
+                ]
+            },
+            "ScheduleDetails": {
+                "type": "object",
+                "properties": {
+                    "scheduleName": {
+                        "type": "string"
+                    },
+                    "dbId": {
+                        "type": "string"
+                    },
+                    "cronExpression": {
+                        "type": "string"
+                    },
+                    "selectedTables": {
+                        "$ref": "#/components/schemas/SelectedTablesDto"
+                    },
+                    "lang": {
+                        "type": "string"
+                    },
+                    "jobTriggerMode": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "scheduleName",
+                    "dbId",
+                    "cronExpression",
+                    "selectedTables",
+                    "lang",
+                    "jobTriggerMode"
+                ]
+            },
+            "PagingData": {
+                "type": "object",
+                "properties": {
+                    "pageNum": {
+                        "type": "number"
+                    },
+                    "limit": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "pageNum",
+                    "limit"
+                ]
+            },
+            "ScheduleFilter": {
+                "type": "object",
+                "properties": {
+                    "scheduleName": {
+                        "type": "string"
+                    },
+                    "dbId": {
+                        "type": "string"
+                    },
+                    "paging": {
+                        "$ref": "#/components/schemas/PagingData"
+                    },
+                    "lang": {
+                        "type": "string"
+                    },
+                    "jobTriggerMode": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "scheduleName",
+                    "dbId",
+                    "paging",
+                    "lang",
+                    "jobTriggerMode"
+                ]
+            },
+            "PageSortDto": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "number"
+                    },
+                    "flag": {
+                        "type": "string"
+                    },
+                    "sortOptions": {
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "page",
+                    "flag",
+                    "sortOptions"
+                ]
+            },
+            "NameDatePageSortDto": {
+                "type": "object",
+                "properties": {
+                    "schedulername": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "flag": {
+                        "type": "string"
+                    },
+                    "sortOptions": {
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "schedulername",
+                    "date",
+                    "page",
+                    "flag",
+                    "sortOptions"
+                ]
+            },
+            "NameDatePageLimitSortDto": {
+                "type": "object",
+                "properties": {
+                    "schedulername": {
+                        "type": "string"
+                    },
+                    "childTableName": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "page": {
+                        "type": "number"
+                    },
+                    "limit": {
+                        "type": "number"
+                    },
+                    "flag": {
+                        "type": "string"
+                    },
+                    "sortOptions": {
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "schedulername",
+                    "childTableName",
+                    "date",
+                    "page",
+                    "limit",
+                    "flag",
+                    "sortOptions"
+                ]
+            },
+            "GraphDataDto": {
+                "type": "object",
+                "properties": {
+                    "schedulerName": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "tableName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "schedulerName",
+                    "date",
+                    "tableName"
+                ]
+            },
+            "DownloadQueryDto": {
+                "type": "object",
+                "properties": {
+                    "schedulerName": {
+                        "type": "string"
+                    },
+                    "executionDate": {
+                        "type": "string"
+                    },
+                    "downloadType": {
+                        "type": "string"
+                    },
+                    "mode": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "schedulerName",
+                    "executionDate",
+                    "downloadType",
+                    "mode"
+                ]
+            },
+            "SchedulerNameArrayDto": {
+                "type": "object",
+                "properties": {
+                    "schedulerNameArray": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "executionDateArray": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "mode": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "schedulerNameArray",
+                    "executionDateArray",
+                    "mode"
+                ]
+            },
+            "DeleteManyBasedonIdDto": {
+                "type": "object",
+                "properties": {
+                    "schedulerIdList": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "schedulerIdList"
+                ]
+            }
+        }
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "operationId": "getHello",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/sample": {
+            "post": {
+                "operationId": "sampleGetRequest",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReferDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/get": {
+            "post": {
+                "operationId": "getDbDetails",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PagingFilter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/insert": {
+            "post": {
+                "operationId": "postDbDetails",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DbConfigDetails"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/update/{_id}": {
+            "put": {
+                "operationId": "putDbDetails",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DbConfigDetails"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/delete/{_id}": {
+            "delete": {
+                "operationId": "deleteDbDetails",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/download": {
+            "get": {
+                "operationId": "downloadDbDetails",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/get/{_id}": {
+            "get": {
+                "operationId": "getDbDetailsById",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/dbdetails/all": {
+            "get": {
+                "operationId": "getAllDBDetailsList",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/relation/tablemetasuggest/{_tablename}/{_maxlimit}/{_dbid}": {
+            "get": {
+                "operationId": "getTableNameSuggestion",
+                "parameters": [
+                    {
+                        "name": "_tablename",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "_maxlimit",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "_dbid",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/tablemetadata/{_tablename}/{_dbid}": {
+            "get": {
+                "operationId": "getTableData",
+                "parameters": [
+                    {
+                        "name": "_tablename",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "_dbid",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/tablemetacolumns/{_tablename}/{_dbid}": {
+            "get": {
+                "operationId": "getTableColumnData",
+                "parameters": [
+                    {
+                        "name": "_tablename",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "_dbid",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/primarykeycolumns/{_tablename}/{_dbid}": {
+            "get": {
+                "operationId": "getPrimaryKeyColumnData",
+                "parameters": [
+                    {
+                        "name": "_tablename",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "_dbid",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/tablerelationdata": {
+            "post": {
+                "operationId": "getAllRelationTableData",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SearchTableRelationDataDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/sqltablerelationdata": {
+            "post": {
+                "operationId": "getSqlRelationTableData",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InputSqlTableRelationsDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/download/{_dbId}": {
+            "get": {
+                "operationId": "downloadTableRelationDetails",
+                "parameters": [
+                    {
+                        "name": "_dbId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/insertone": {
+            "post": {
+                "operationId": "postTableRelationData",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TableRelationsDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/insertmany": {
+            "post": {
+                "operationId": "postTableRelationsList",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/relation/fileupload": {
+            "post": {
+                "operationId": "postTableRelationsDetails",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "relation"
+                ]
+            }
+        },
+        "/schedules/fetchTableList/{_dbId}": {
+            "get": {
+                "operationId": "fetchTableList",
+                "parameters": [
+                    {
+                        "name": "_dbId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/saveScheduleDetails": {
+            "post": {
+                "operationId": "saveScheduleDetails",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScheduleDetails"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/getScheduleDetailsByFilter": {
+            "post": {
+                "operationId": "getScheduleDetailsByFilter",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScheduleFilter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/{_scheduleId}": {
+            "delete": {
+                "operationId": "deleteScheduleDetails",
+                "parameters": [
+                    {
+                        "name": "_scheduleId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            },
+            "put": {
+                "operationId": "updateScheduleDetails",
+                "parameters": [
+                    {
+                        "name": "_scheduleId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScheduleDetails"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/getAllScheduleDetails": {
+            "post": {
+                "operationId": "getAllScheduleDetails",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PagingData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/getTableRelationDetails/{_dbId}": {
+            "get": {
+                "operationId": "getTableRelationDetails",
+                "parameters": [
+                    {
+                        "name": "_dbId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/fetchClassifiedData/{_dbId}/{_classificationKey}": {
+            "post": {
+                "operationId": "fetchClassifiedData",
+                "parameters": [
+                    {
+                        "name": "_dbId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "_classificationKey",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PagingData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/schedules/sendMail/{scheduleId}/{start}/{end}": {
+            "get": {
+                "operationId": "notifyWithMail",
+                "parameters": [
+                    {
+                        "name": "scheduleId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "schedules"
+                ]
+            }
+        },
+        "/executionresult/getAllSchedulerResults": {
+            "post": {
+                "operationId": "getAllExecutionResults",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PageSortDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/getSchedulersOnaDate": {
+            "post": {
+                "operationId": "getExecutionResultsOnNameAndDate",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NameDatePageSortDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/getChildTableSuccessRates": {
+            "post": {
+                "operationId": "getChildTableSuccessRates",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NameDatePageLimitSortDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/getGraphData": {
+            "post": {
+                "operationId": "getGraphData",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GraphDataDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/downloadSingleQuery": {
+            "post": {
+                "operationId": "downloadSingleQuery",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DownloadQueryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/downloadMultipleSchedulerQuery": {
+            "post": {
+                "operationId": "downloadAllInsertQuery",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SchedulerNameArrayDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/downloadCSVFileSingle": {
+            "post": {
+                "operationId": "downloadCSVFile",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DownloadQueryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/executionresults/{schedulerId}": {
+            "get": {
+                "operationId": "postExecutionresults",
+                "parameters": [
+                    {
+                        "name": "schedulerId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/deleteMultipleSchedulerDetails": {
+            "delete": {
+                "operationId": "deleteMultipleSchedulerResults",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeleteManyBasedonIdDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        },
+        "/executionresult/all": {
+            "delete": {
+                "operationId": "deleteAllExecutionResults",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "executionresult"
+                ]
+            }
+        }
+    }
+}
